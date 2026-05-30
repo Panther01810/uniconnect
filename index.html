@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="KYU CONNECT - Connect anonymously with students from Kirinyaga University and beyond.">
+    <meta name="theme-color" content="#007bff">
+    <title>KYU CONNECT - Mingle Anonymously</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Modern Navigation Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo-section">
+                <h1><i class="fas fa-infinity"></i> KYU CONNECT</h1>
+            </div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="pages/home.html" class="nav-link active" data-page="home"><i class="fas fa-home"></i><span>Home</span></a></li>
+                    <li><a href="pages/kyu.html" class="nav-link" data-page="kyu"><i class="fas fa-graduation-cap"></i><span>KYU</span></a></li>
+                    <li><a href="pages/other-unis.html" class="nav-link" data-page="other-unis"><i class="fas fa-building"></i><span>Other Unis</span></a></li>
+                    <li><a href="pages/status.html" class="nav-link" data-page="status"><i class="fas fa-pen"></i><span>Status</span></a></li>
+                    <li><a href="pages/chat.html" class="nav-link" data-page="chat"><i class="fas fa-comments"></i><span>Chat</span></a></li>
+                    <li><a href="pages/ai.html" class="nav-link" data-page="ai"><i class="fas fa-robot"></i><span>AI</span></a></li>
+                    <li><a href="pages/profile.html" class="nav-link" data-page="profile"><i class="fas fa-user-circle"></i><span>Profile</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="auth-buttons">
+                <div id="user-status" class="user-status" style="display: none;"></div>
+                <a href="pages/login.html" class="btn btn-login"><i class="fas fa-sign-in-alt"></i> Login</a>
+                <a href="pages/signup.html" class="btn btn-signup"><i class="fas fa-user-plus"></i> Sign Up</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="content-area" class="content-area">
+        <iframe id="content-frame" src="pages/signup.html" title="KYU CONNECT Content" frameborder="0" sandbox="allow-same-origin allow-scripts allow-forms" loading="eager"></iframe>
+    </main>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p><i class="fas fa-copyright"></i> 2026 KYU CONNECT. All rights reserved.</p>
+        <p><i class="fas fa-code"></i> Created by <strong>PantherX Webtech</strong> | Developed by <strong>James Masika</strong></p>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js" defer></script>
+</body>
+</html>

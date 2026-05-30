@@ -1,0 +1,48 @@
+services:
+  - type: web
+    name: kyu-connect-backend
+    runtime: node
+    region: ohio
+    plan: free
+    buildCommand: cd backend && npm install
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: MONGODB_URI
+        fromDatabase:
+          name: kyu-connect-db
+          property: connectionString
+      - key: JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: FRONTEND_URL
+        value: https://kyu-connect.onrender.com
+      - key: TWILIO_ACCOUNT_SID
+        sync: false
+      - key: TWILIO_AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: MAX_FILE_SIZE
+        value: 5000000
+
+  - type: static_site
+    name: kyu-connect-frontend
+    runtime: static
+    region: ohio
+    plan: free
+    buildCommand: echo "Frontend is served as static files"
+    staticPublicPath: ./
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://kyu-connect-backend.onrender.com
+
+databases:
+  - name: kyu-connect-db
+    databaseName: kyuconnect
+    region: ohio
+    plan: free
