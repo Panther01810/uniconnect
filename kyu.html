@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYU Students - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+        });
+    </script>
+    <div class="content-section">
+        <div class="feed-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center;">
+                <div>
+                    <h3><i class="fas fa-graduation-cap"></i> KYU Students</h3>
+                    <p style="color: var(--text-light); max-width: 580px;">Connect with amazing students from Kirinyaga University. Share study tips, campus events, and make meaningful connections.</p>
+                </div>
+                <button class="btn-primary" onclick="document.querySelector('.status-composer textarea').focus();"><i class="fas fa-feather-alt"></i> Share update</button>
+            </div>
+        </div>
+
+        <div class="stories">
+            <div class="story-item">
+                <div class="story-avatar">JS</div>
+                <strong>James N.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Robotics project update.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">SP</div>
+                <strong>Sarah P.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Business club meeting.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">MO</div>
+                <strong>Mike O.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Soccer practice vibes.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">LA</div>
+                <strong>Lisa A.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Drama rehearsal.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">DK</div>
+                <strong>David K.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Medical studies.</p>
+            </div>
+        </div>
+
+        <div class="status-composer">
+            <textarea placeholder="Share your study progress, campus events, or connect with fellow students..."></textarea>
+            <div class="composer-actions">
+                <input type="file" accept="image/*" aria-label="Upload image">
+                <button class="btn-primary" onclick="createStory(event)"><i class="fas fa-paper-plane"></i> Post to KYU feed</button>
+            </div>
+        </div>
+
+        <div class="feed-card" id="feed-list">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">JS</div>
+                    <div class="post-author">
+                        <strong>James N.</strong>
+                        <span>15 mins ago · Year 3</span>
+                    </div>
+                </div>
+                <div class="post-body">Just finished our robotics project presentation! The AI-powered sorting mechanism worked perfectly. Anyone interested in joining the robotics club? We meet every Tuesday in the engineering block. 🤖⚙️</div>
+                <img class="post-image" src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=430&fit=crop" alt="Robotics Project">
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">SP</div>
+                    <div class="post-author">
+                        <strong>Sarah P.</strong>
+                        <span>45 mins ago · Year 2</span>
+                    </div>
+                </div>
+                <div class="post-body">Business students! We're organizing a startup pitch competition next month. If you have an innovative idea or want to join the organizing committee, DM me. Great networking opportunity! 💼🚀</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">LA</div>
+                    <div class="post-author">
+                        <strong>Lisa A.</strong>
+                        <span>1 hour ago · Year 2</span>
+                    </div>
+                </div>
+                <div class="post-body">Drama club is casting for our next production! Whether you're an actor, tech crew, or just love theatre, we welcome everyone. Auditions are this Friday in the auditorium. 🎭✨</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3><i class="fas fa-users"></i> Meet KYU Students</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px;">Connect with fellow students from different departments and years.</p>
+            <div class="mingle-cards">
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>James N.</h4>
+                    <div class="age-location">23 • Year 3</div>
+                    <div class="bio">Robotics club president. AI enthusiast building the future.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Robotics</div>
+                        <div class="interest-tag">AI</div>
+                        <div class="interest-tag">Hackathons</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Sarah P.</h4>
+                    <div class="age-location">22 • Year 2</div>
+                    <div class="bio">Business student with entrepreneurial dreams and networking skills.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Business</div>
+                        <div class="interest-tag">Startups</div>
+                        <div class="interest-tag">Networking</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c006ae30?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Mike O.</h4>
+                    <div class="age-location">22 • Year 3</div>
+                    <div class="bio">Soccer player and lab assistant balancing sports and science.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Sports</div>
+                        <div class="interest-tag">Science</div>
+                        <div class="interest-tag">Gym</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1507539332640-92c1e6effe41?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Lisa A.</h4>
+                    <div class="age-location">21 • Year 2</div>
+                    <div class="bio">Drama club member bringing creativity and arts to campus life.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Theatre</div>
+                        <div class="interest-tag">Arts</div>
+                        <div class="interest-tag">Events</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1517849845537-ee61ee2e5c2e?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>David K.</h4>
+                    <div class="age-location">23 • Year 4</div>
+                    <div class="bio">Medical student on the path to becoming a future doctor.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Medicine</div>
+                        <div class="interest-tag">Research</div>
+                        <div class="interest-tag">Helping</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Emma W.</h4>
+                    <div class="age-location">20 • Year 1</div>
+                    <div class="bio">Book lover organizing the campus book club and studying literature.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Books</div>
+                        <div class="interest-tag">Writing</div>
+                        <div class="interest-tag">Study</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function likePost(button) {
+            button.innerHTML = '<i class="fas fa-heart"></i> Liked';
+            button.style.color = '#dc3545';
+        }
+
+        function likeProfile(button) {
+            button.innerHTML = '<i class="fas fa-check"></i> Following';
+            button.style.color = '#28a745';
+        }
+
+        function createStory(event) {
+            event.preventDefault();
+            const textarea = document.querySelector('.status-composer textarea');
+            if (!textarea.value.trim()) {
+                textarea.focus();
+                return;
+            }
+            const feedList = document.getElementById('feed-list');
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            postCard.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">YO</div>
+                    <div class="post-author">
+                        <strong>Your Story</strong>
+                        <span>just now · KYU Student</span>
+                    </div>
+                </div>
+                <div class="post-body">${textarea.value.trim()}</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            `;
+            feedList.prepend(postCard);
+            textarea.value = '';
+        }
+    </script>
+</body>
+</html>

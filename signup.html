@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-panel">
+        <div class="brand-title"><i class="fas fa-infinity"></i> KYU CONNECT</div>
+        <p style="color: var(--text-light); margin-bottom: 28px;">Create your campus profile and start sharing anonymous updates with the community.</p>
+
+        <form id="signup-form" onsubmit="handleSignup(event)">
+            <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 18px;">
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" type="text" placeholder="First name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name">Last Name</label>
+                    <input id="last-name" type="text" placeholder="Last name" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-email">Email</label>
+                <input id="signup-email" type="email" placeholder="you@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-university">University</label>
+                <select id="signup-university" required>
+                    <option value="">Select your university</option>
+                    <option value="KYU">Kirinyaga University (KYU)</option>
+                    <option value="University of Nairobi">University of Nairobi</option>
+                    <option value="Kenyatta University">Kenyatta University</option>
+                    <option value="JKUAT">JKUAT</option>
+                    <option value="Strathmore University">Strathmore University</option>
+                    <option value="Makerere University">Makerere University</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-handle">Username</label>
+                <input id="signup-handle" type="text" placeholder="choose a handle" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-password">Password</label>
+                <input id="signup-password" type="password" placeholder="Create a strong password" required>
+            </div>
+
+            <div class="form-group">
+                <label for="signup-confirm">Confirm Password</label>
+                <input id="signup-confirm" type="password" placeholder="Confirm password" required>
+            </div>
+
+            <label style="display: flex; align-items: center; gap: 12px; margin-bottom: 24px; color: var(--text-dark);">
+                <input id="terms-check" type="checkbox" required>
+                <span style="font-size: 0.95em;">I agree to the <a href="#" style="color: #667eea; text-decoration: none; font-weight: 700;">Terms of Service</a> and <a href="#" style="color: #667eea; text-decoration: none; font-weight: 700;">Privacy Policy</a>.</span>
+            </label>
+
+            <button type="submit" class="btn-primary"><i class="fas fa-user-plus"></i> Create Account</button>
+        </form>
+
+        <div style="margin: 24px 0; display: flex; align-items: center; gap: 10px;">
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+            <span style="color: var(--text-light);">OR</span>
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+        </div>
+
+        <button type="button" class="btn-primary" style="background: #ffffff; color: #2c3e50; border: 2px solid var(--border-color); box-shadow: none;" onclick="window.alert('Google signup is a placeholder in this demo.')">
+            <i class="fab fa-google" style="color: #dc3545;"></i> Sign up with Google
+        </button>
+        <button type="button" class="btn-primary" style="background: #ffffff; color: #2c3e50; border: 2px solid var(--border-color); box-shadow: none; margin-top: 12px;" onclick="window.alert('Facebook signup is a placeholder in this demo.')">
+            <i class="fab fa-facebook" style="color: #007bff;"></i> Sign up with Facebook
+        </button>
+
+        <p style="text-align: center; color: var(--text-light); margin-top: 28px;">
+            Already have an account? <a href="login.html" style="color: #667eea; font-weight: 700;">Login here</a>
+        </p>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (user) {
+                // User is already logged in, redirect to home
+                redirectToHome();
+                return;
+            }
+        });
+
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const firstName = document.getElementById('first-name').value.trim();
+            const lastName = document.getElementById('last-name').value.trim();
+            const email = document.getElementById('signup-email').value.trim();
+            const university = document.getElementById('signup-university').value;
+            const handle = document.getElementById('signup-handle').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            
+            if (password !== confirm) {
+                createAuthNotice('Passwords do not match.', 'danger');
+                return;
+            }
+            
+            try {
+                const result = await registerUser({
+                    firstName,
+                    lastName,
+                    name: `${firstName} ${lastName}`,
+                    email,
+                    university,
+                    handle,
+                    password
+                });
+                
+                if (!result.success) {
+                    createAuthNotice(result.message || result.error, 'danger');
+                    return;
+                }
+                
+                createAuthNotice('Account created successfully! Redirecting to home...', 'success');
+                setTimeout(() => {
+                    redirectToHome();
+                }, 1000);
+            } catch (error) {
+                createAuthNotice('Registration failed. Please try again.', 'danger');
+                console.error('Signup error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

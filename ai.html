@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Assistant - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        .notification.success { background: #28a745; }
+        .notification.error { background: #dc3545; }
+        .notification.info { background: #17a2b8; }
+        .story-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+        }
+        .story-item:active {
+            transform: translateY(0);
+        }
+        .ai-response {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f2ff 100%);
+            border-left: 4px solid #667eea;
+        }
+        .user-question {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe8e8 100%);
+            border-left: 4px solid #dc3545;
+        }
+        .typing-indicator {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+    <div class="content-section">
+        <div class="feed-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center;">
+                <div>
+                    <h3><i class="fas fa-robot"></i> AI Mingle Assistant</h3>
+                    <p style="color: var(--text-light); max-width: 580px;">Get personalized dating advice, conversation starters, and profile optimization tips from our AI assistant.</p>
+                </div>
+                <button class="btn-primary" onclick="document.querySelector('.status-composer textarea').focus();"><i class="fas fa-robot"></i> Ask AI</button>
+                <button class="btn-secondary" onclick="showConversationStats()" style="margin-left: 10px;"><i class="fas fa-chart-bar"></i> Stats</button>
+                <button class="btn-secondary" onclick="showHelp()" style="margin-left: 10px;"><i class="fas fa-question-circle"></i> Help</button>
+            </div>
+        </div>
+
+        <div class="stories">
+            <div class="story-item" onclick="askQuickQuestion('profile')">
+                <div class="story-avatar">AI</div>
+                <strong>Profile Help</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Optimize your profile & bio</p>
+            </div>
+            <div class="story-item" onclick="askQuickQuestion('conversation')">
+                <div class="story-avatar">💬</div>
+                <strong>Chat Starters</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Icebreakers that work</p>
+            </div>
+            <div class="story-item" onclick="askQuickQuestion('safety')">
+                <div class="story-avatar">🛡️</div>
+                <strong>Safety Tips</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Stay safe online</p>
+            </div>
+            <div class="story-item" onclick="askQuickQuestion('dating')">
+                <div class="story-avatar">💕</div>
+                <strong>Dating Advice</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Navigate relationships</p>
+            </div>
+            <div class="story-item" onclick="showSuggestions('conversation-starters')">
+                <div class="story-avatar">💡</div>
+                <strong>Quick Tips</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Ready-made suggestions</p>
+            </div>
+            <div class="story-item" onclick="clearConversation()">
+                <div class="story-avatar">🗑️</div>
+                <strong>Clear Chat</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Start fresh conversation</p>
+            </div>
+        </div>
+
+        <div class="status-composer">
+            <textarea placeholder="Ask the AI assistant anything about dating, profiles, or connections..."></textarea>
+            <div class="composer-actions">
+                <button class="btn-primary" onclick="askAI(event)"><i class="fas fa-robot"></i> Ask AI</button>
+            </div>
+        </div>
+
+        <div class="feed-card" id="feed-list">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">AI</div>
+                    <div class="post-author">
+                        <strong>AI Assistant</strong>
+                        <span>Online · System</span>
+                    </div>
+                </div>
+                <div class="post-body">👋 Hi! I'm your AI dating assistant. I'm here to help with:
+• <strong>Profile Tips:</strong> Write a compelling bio and choose great photos
+• <strong>Conversation Starters:</strong> Icebreakers that lead to real connections
+• <strong>Dating Advice:</strong> Navigate the dating world confidently
+• <strong>Safety Guidance:</strong> Stay safe while meeting new people
+• <strong>Matching Tips:</strong> Find compatible connections
+
+Ask me anything! Just type your question below.</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likeAIResponse(this)"><i class="fas fa-heart"></i> Helpful</button>
+                    <button class="feed-action-button" onclick="shareAIResponse(this)"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3><i class="fas fa-brain"></i> AI-Powered Dating Insights</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px;">Connect with fellow AI enthusiasts and get smart dating advice.</p>
+            <div class="mingle-cards">
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Alex T.</h4>
+                    <div class="age-location">22 • AI Student</div>
+                    <div class="bio">Building AI chatbots and studying machine learning patterns in social connections.</div>
+                    <div class="interests">
+                        <div class="interest-tag">AI</div>
+                        <div class="interest-tag">ML</div>
+                        <div class="interest-tag">Tech</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Sara M.</h4>
+                    <div class="age-location">21 • Data Science</div>
+                    <div class="bio">Using data to understand human connections and optimize matching algorithms.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Data</div>
+                        <div class="interest-tag">Analytics</div>
+                        <div class="interest-tag">Psychology</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Mike R.</h4>
+                    <div class="age-location">23 • Robotics</div>
+                    <div class="bio">Exploring how AI can enhance social interactions and emotional intelligence.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Robotics</div>
+                        <div class="interest-tag">AI Ethics</div>
+                        <div class="interest-tag">Innovation</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated and initialize AI features
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+
+            // Load conversation history
+            aiAssistant.loadConversationHistory();
+
+            // Add keyboard shortcuts (Ctrl+Enter to send)
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    askAI({ preventDefault: () => {} });
+                }
+            });
+
+            // Auto-focus textarea for better UX
+            const textarea = document.querySelector('.status-composer textarea');
+            if (textarea) {
+                textarea.focus();
+                // Add placeholder hint
+                textarea.placeholder = "Ask me anything about dating, profiles, or connections... (Ctrl+Enter to send)";
+            }
+        });
+    </script>
+    <script src="../js/ai.js"></script>
+    <script>
+        function likeProfile(button) {
+            button.innerHTML = '<i class="fas fa-check"></i> Following';
+            button.style.color = '#28a745';
+        }
+    </script>
+</body>
+</html>

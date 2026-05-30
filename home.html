@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        .notification.success { background: #28a745; }
+        .notification.error { background: #dc3545; }
+        .notification.info { background: #17a2b8; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .post-images {
+            display: grid;
+            gap: 8px;
+            margin: 12px 0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .post-images img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+        .comments-section {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border-color);
+        }
+        .comments-list {
+            margin-bottom: 12px;
+        }
+        .comment {
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-light);
+        }
+        .comment:last-child {
+            border-bottom: none;
+        }
+        .comment-input {
+            display: flex;
+            gap: 8px;
+        }
+        .comment-input input {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+        }
+        .comment-input button {
+            padding: 8px 16px;
+            background: var(--accent-primary);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        .liked {
+            color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-section">
+        <div class="feed-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center;">
+                <div>
+                    <h3><i class="fas fa-hashtag"></i> Campus Feed</h3>
+                    <p style="color: var(--text-light); max-width: 580px;">Swipe through genuine stories, anonymous updates and community posts from KYU and neighboring universities.</p>
+                </div>
+                <button class="btn-primary" onclick="document.querySelector('.status-composer textarea').focus();"><i class="fas fa-feather-alt"></i> Share a story</button>
+            </div>
+        </div>
+
+        <div class="stories">
+            <div class="story-item">
+                <div class="story-avatar">NK</div>
+                <strong>Njeri K.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Sharing campus coffee spots.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">TM</div>
+                <strong>Tim M.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Coding late nights.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">AS</div>
+                <strong>Amina S.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Group project ready.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">JV</div>
+                <strong>Jules V.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">New playlist drop.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">LB</div>
+                <strong>Lisa B.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Beach day plans.</p>
+            </div>
+        </div>
+
+        <div class="status-composer">
+            <textarea placeholder="Share your mood, study plans or anonymous thoughts..."></textarea>
+            <div class="composer-actions">
+                <input type="file" accept="image/*" multiple aria-label="Upload images">
+                <button class="btn-primary" onclick="createStory(event)"><i class="fas fa-paper-plane"></i> Post to feed</button>
+            </div>
+        </div>
+
+        <div class="feed-card" id="feed-list">
+            <!-- Dynamic posts will be loaded here -->
+            <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 16px;"></i>
+                <p>Loading posts...</p>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3><i class="fas fa-user-friends"></i> Meet Real People</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px;">Profiles are presented with an honest social feed style while preserving anonymous connection options.</p>
+            <div class="mingle-cards">
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Faith K.</h4>
+                    <div class="age-location">21 • KYU</div>
+                    <div class="bio">Design student exploring campus photography and event planning.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Design</div>
+                        <div class="interest-tag">Events</div>
+                        <div class="interest-tag">Photos</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>David O.</h4>
+                    <div class="age-location">23 • Nairobi</div>
+                    <div class="bio">Tech enthusiast building anonymous group chats for campus communities.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Tech</div>
+                        <div class="interest-tag">Chat</div>
+                        <div class="interest-tag">Startup</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Mary N.</h4>
+                    <div class="age-location">22 • Meru</div>
+                    <div class="bio">Loves campus poetry nights, playlists and meeting new people.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Music</div>
+                        <div class="interest-tag">Poetry</div>
+                        <div class="interest-tag">Social</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+        });
+    </script>
+    <script src="../js/posts.js"></script>
+</body>
+</html>

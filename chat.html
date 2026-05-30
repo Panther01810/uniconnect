@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .chat-item-avatar.online {
+            border: 2px solid #28a745;
+        }
+        .chat-time {
+            font-size: 0.8em;
+            color: var(--text-light);
+            margin-left: auto;
+        }
+        .unread-badge {
+            background: #dc3545;
+            color: white;
+            border-radius: 10px;
+            padding: 2px 6px;
+            font-size: 0.7em;
+            margin-left: auto;
+        }
+        .message.sent {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            align-self: flex-end;
+        }
+        .message.received {
+            background: var(--bg-secondary);
+            align-self: flex-start;
+        }
+        .message-time {
+            font-size: 0.7em;
+            opacity: 0.7;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="content-section">
+        <h3><i class="fas fa-comments"></i> Messages & Chat</h3>
+        <p style="color: var(--text-light); margin-bottom: 24px;">Jump into one-on-one conversations, anonymous group chats, and discover new connections.</p>
+
+        <div class="chat-container">
+            <div class="chat-list">
+                <h4 style="margin-bottom: 20px; color: #667eea;"><i class="fas fa-inbox"></i> Direct Messages</h4>
+                <!-- Conversations will be loaded dynamically -->
+                <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                    <i class="fas fa-spinner fa-spin" style="font-size: 24px; margin-bottom: 16px;"></i>
+                    <p>Loading conversations...</p>
+                </div>
+            </div>
+
+            <div class="chat-window">
+                <div class="chat-header">
+                    <h3 id="chat-title">Select a conversation</h3>
+                    <button style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer;"><i class="fas fa-video"></i> Video Call</button>
+                </div>
+
+                <div class="messages" id="messages">
+                    <div style="text-align: center; padding: 40px; color: var(--text-light);">
+                        <i class="fas fa-comments" style="font-size: 48px; margin-bottom: 16px;"></i>
+                        <p>Select a conversation to start chatting</p>
+                    </div>
+                </div>
+
+                <div class="chat-input-area">
+                    <input type="text" id="message-input" placeholder="Type your message..." disabled>
+                    <button onclick="sendMessage()" disabled><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+        });
+    </script>
+    <script src="../js/chat.js"></script>
+</body>
+</html>

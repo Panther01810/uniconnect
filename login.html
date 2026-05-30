@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="auth-panel">
+        <div class="brand-title"><i class="fas fa-infinity"></i> KYU CONNECT</div>
+        <p style="color: var(--text-light); margin-bottom: 30px;">Sign in with your email and password to access the anonymous campus social feed.</p>
+
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="login-email">Email</label>
+                <input id="login-email" type="email" placeholder="name@example.com" required>
+            </div>
+            <div class="form-group">
+                <label for="login-password">Password</label>
+                <input id="login-password" type="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn-primary"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </form>
+
+        <div style="margin: 25px 0; display: flex; align-items: center; gap: 10px;">
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+            <span style="color: var(--text-light);">OR</span>
+            <div style="flex: 1; height: 1px; background: var(--border-color);"></div>
+        </div>
+
+        <button type="button" class="btn-primary" style="background: #ffffff; color: #2c3e50; border: 2px solid var(--border-color); box-shadow: none;" onclick="window.alert('Google login is a placeholder in this demo.')">
+            <i class="fab fa-google" style="color: #dc3545;"></i> Continue with Google
+        </button>
+        <button type="button" class="btn-primary" style="background: #ffffff; color: #2c3e50; border: 2px solid var(--border-color); box-shadow: none; margin-top: 12px;" onclick="window.alert('Facebook login is a placeholder in this demo.')">
+            <i class="fab fa-facebook" style="color: #007bff;"></i> Continue with Facebook
+        </button>
+
+        <p style="text-align: center; color: var(--text-light); margin-top: 24px;">
+            New here? <a href="signup.html" style="color: #667eea; font-weight: 700;">Create an account</a>
+        </p>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is already logged in
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (user) {
+                // User is already logged in, redirect to home
+                redirectToHome();
+                return;
+            }
+        });
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                const result = await loginUser({ email, password });
+                
+                if (!result.success) {
+                    createAuthNotice(result.error || 'Login failed. Please check your credentials.', 'danger');
+                    return;
+                }
+                
+                createAuthNotice(`Welcome back, ${result.user.firstName}! Redirecting to home...`, 'success');
+                setTimeout(() => {
+                    redirectToHome();
+                }, 1000);
+            } catch (error) {
+                createAuthNotice('Login failed. Please try again.', 'danger');
+                console.error('Login error:', error);
+            }
+        }
+    </script>
+</body>
+</html>

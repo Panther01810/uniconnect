@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Other Universities - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+        });
+    </script>
+    <div class="content-section">
+        <div class="feed-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center;">
+                <div>
+                    <h3><i class="fas fa-building"></i> Students from Other Universities</h3>
+                    <p style="color: var(--text-light); max-width: 580px;">Meet amazing people from universities across Kenya. Share experiences, collaborate on projects, and build connections beyond campus boundaries.</p>
+                </div>
+                <button class="btn-primary" onclick="document.querySelector('.status-composer textarea').focus();"><i class="fas fa-feather-alt"></i> Share update</button>
+            </div>
+        </div>
+
+        <div class="stories">
+            <div class="story-item">
+                <div class="story-avatar">EB</div>
+                <strong>Ethan B.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Law studies in Nairobi.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">NV</div>
+                <strong>Nina V.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Art exhibition coming up.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">HH</div>
+                <strong>Kevin H.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Engineering breakthrough.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">MM</div>
+                <strong>Grace M.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">New app development.</p>
+            </div>
+            <div class="story-item">
+                <div class="story-avatar">CC</div>
+                <strong>Adrian C.</strong>
+                <p style="font-size:0.85em;color:var(--text-light);">Crypto market insights.</p>
+            </div>
+        </div>
+
+        <div class="status-composer">
+            <textarea placeholder="Share your university experiences, collaborate on projects, or connect with students from other campuses..."></textarea>
+            <div class="composer-actions">
+                <input type="file" accept="image/*" aria-label="Upload image">
+                <button class="btn-primary" onclick="createStory(event)"><i class="fas fa-paper-plane"></i> Post to feed</button>
+            </div>
+        </div>
+
+        <div class="feed-card" id="feed-list">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">EB</div>
+                    <div class="post-author">
+                        <strong>Ethan B.</strong>
+                        <span>20 mins ago · University of Nairobi</span>
+                    </div>
+                </div>
+                <div class="post-body">Mock trial competition was intense this week! Representing UoN Law Society. The debate skills we're developing here are incredible. Anyone else in law interested in joining inter-university competitions? ⚖️📚</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">NV</div>
+                    <div class="post-author">
+                        <strong>Nina V.</strong>
+                        <span>1 hour ago · Kenyatta University</span>
+                    </div>
+                </div>
+                <div class="post-body">My latest painting series is now on display at the KU Art Gallery! Themes of cultural identity and modern Kenyan life. Opening reception this Saturday. All art lovers welcome! 🎨🖼️</div>
+                <img class="post-image" src="https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&h=430&fit=crop" alt="Art Exhibition">
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">HH</div>
+                    <div class="post-author">
+                        <strong>Kevin H.</strong>
+                        <span>2 hours ago · JKUAT</span>
+                    </div>
+                </div>
+                <div class="post-body">Our mechanical engineering team just completed a solar-powered water pumping system for rural communities. Testing phase successful! Looking for collaborators from other universities for the next phase. Engineering students, let's connect! ⚙️☀️</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h3><i class="fas fa-globe"></i> Meet Students from Across Kenya</h3>
+            <p style="color: var(--text-light); margin-bottom: 20px;">Connect with talented students from universities nationwide and expand your network.</p>
+            <div class="mingle-cards">
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Ethan B.</h4>
+                    <div class="age-location">22 • University of Nairobi</div>
+                    <div class="bio">Law student and debate champion passionate about social justice.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Law</div>
+                        <div class="interest-tag">Debate</div>
+                        <div class="interest-tag">Social Work</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Nina V.</h4>
+                    <div class="age-location">21 • Kenyatta University</div>
+                    <div class="bio">Fine arts student and gallery curator exploring cultural expressions.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Art</div>
+                        <div class="interest-tag">Curation</div>
+                        <div class="interest-tag">Culture</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1539571696357-5a69c006ae30?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Kevin H.</h4>
+                    <div class="age-location">23 • JKUAT</div>
+                    <div class="bio">Mechanical engineer and tech innovator working on sustainable solutions.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Engineering</div>
+                        <div class="interest-tag">Tech</div>
+                        <div class="interest-tag">Innovation</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1507539332640-92c1e6effe41?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Grace M.</h4>
+                    <div class="age-location">22 • Makerere University</div>
+                    <div class="bio">IT student and app developer creating solutions for social impact.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Tech</div>
+                        <div class="interest-tag">Apps</div>
+                        <div class="interest-tag">Code</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1517849845537-ee61ee2e5c2e?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Adrian C.</h4>
+                    <div class="age-location">21 • Strathmore University</div>
+                    <div class="bio">Finance major and crypto enthusiast exploring blockchain technology.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Finance</div>
+                        <div class="interest-tag">Crypto</div>
+                        <div class="interest-tag">Trading</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+
+                <div class="profile-card">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&h=200&fit=crop" alt="Profile">
+                    <h4>Zara L.</h4>
+                    <div class="age-location">20 • Mount Kenya University</div>
+                    <div class="bio">Environmental science student advocating for conservation and sustainability.</div>
+                    <div class="interests">
+                        <div class="interest-tag">Environment</div>
+                        <div class="interest-tag">Conservation</div>
+                        <div class="interest-tag">Nature</div>
+                    </div>
+                    <button class="feed-action-button" onclick="likeProfile(this)"><i class="fas fa-heart"></i> Follow</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function likePost(button) {
+            button.innerHTML = '<i class="fas fa-heart"></i> Liked';
+            button.style.color = '#dc3545';
+        }
+
+        function likeProfile(button) {
+            button.innerHTML = '<i class="fas fa-check"></i> Following';
+            button.style.color = '#28a745';
+        }
+
+        function createStory(event) {
+            event.preventDefault();
+            const textarea = document.querySelector('.status-composer textarea');
+            if (!textarea.value.trim()) {
+                textarea.focus();
+                return;
+            }
+            const feedList = document.getElementById('feed-list');
+            const postCard = document.createElement('div');
+            postCard.className = 'post-card';
+            postCard.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">YO</div>
+                    <div class="post-author">
+                        <strong>Your Story</strong>
+                        <span>just now · Inter-University</span>
+                    </div>
+                </div>
+                <div class="post-body">${textarea.value.trim()}</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            `;
+            feedList.prepend(postCard);
+            textarea.value = '';
+        }
+    </script>
+</body>
+</html>

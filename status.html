@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Status Feed - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="content-section">
+        <div class="feed-card">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; align-items: center;">
+                <div>
+                    <h3><i class="fas fa-pen-fancy"></i> Status Feed</h3>
+                    <p style="color: var(--text-light); max-width: 580px;">Post updates, share quick campus thoughts, and see what others are saying in real time.</p>
+                </div>
+                <button class="btn-primary" onclick="document.querySelector('.status-composer textarea').focus();"><i class="fas fa-feather-alt"></i> Write status</button>
+            </div>
+        </div>
+
+        <div class="status-composer">
+            <textarea placeholder="What's on your mind? 💭" id="status-input"></textarea>
+            <div class="composer-actions">
+                <input type="file" accept="image/*,video/*" id="status-file">
+                <button class="btn-primary" onclick="postStatus(event)"><i class="fas fa-paper-plane"></i> Post</button>
+            </div>
+        </div>
+
+        <div id="status-feed" class="feed-card">
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">JM</div>
+                    <div class="post-author">
+                        <strong>James M.</strong>
+                        <span>2 hours ago · KYU</span>
+                    </div>
+                </div>
+                <div class="post-body">Just finished my coding project! 🎉 Feeling accomplished. Anyone else working on something cool?</div>
+                <img class="post-image" src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=800&h=430&fit=crop" alt="Project celebration">
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">SP</div>
+                    <div class="post-author">
+                        <strong>Sarah P.</strong>
+                        <span>4 hours ago · Nairobi</span>
+                    </div>
+                </div>
+                <div class="post-body">Study session at the library today. Who wants to join? 📚☕</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+            <div class="post-card">
+                <div class="post-header">
+                    <div class="post-avatar">MK</div>
+                    <div class="post-author">
+                        <strong>Mike K.</strong>
+                        <span>6 hours ago · KYU</span>
+                    </div>
+                </div>
+                <div class="post-body">Just submitted my thesis! One step closer to graduation 🎓 Gratitude to everyone who supported me.</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+        });
+
+        function likePost(button) {
+            button.style.color = '#dc3545';
+            button.innerHTML = '<i class="fas fa-heart"></i> Liked';
+        }
+
+        function postStatus(event) {
+            event.preventDefault();
+            const content = document.getElementById('status-input').value.trim();
+            if (!content) {
+                document.getElementById('status-input').focus();
+                return;
+            }
+            const feed = document.getElementById('status-feed');
+            const card = document.createElement('div');
+            card.className = 'post-card';
+            card.innerHTML = `
+                <div class="post-header">
+                    <div class="post-avatar">YO</div>
+                    <div class="post-author">
+                        <strong>Your post</strong>
+                        <span>just now · anonymous</span>
+                    </div>
+                </div>
+                <div class="post-body">${content}</div>
+                <div class="post-actions">
+                    <button class="feed-action-button" onclick="likePost(this)"><i class="fas fa-heart"></i> Like</button>
+                    <button class="feed-action-button"><i class="fas fa-comment"></i> Comment</button>
+                    <button class="feed-action-button"><i class="fas fa-share"></i> Share</button>
+                </div>
+            `;
+            feed.prepend(card);
+            document.getElementById('status-input').value = '';
+        }
+    </script>
+</body>
+</html>

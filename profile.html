@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - KYU CONNECT</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="content-section">
+        <div class="profile-card-grid">
+            <div class="profile-summary">
+                <div class="profile-avatar" id="profile-avatar">KY</div>
+                <h2 id="profile-name">Your Profile</h2>
+                <p id="profile-subtitle">Sign in to personalize your experience.</p>
+                <div class="profile-meta">
+                    <span><i class="fas fa-university"></i> <span id="profile-university">No university selected</span></span>
+                    <span><i class="fas fa-hashtag"></i> <span id="profile-handle">@anonymous</span></span>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn-primary" onclick="window.parent.document.getElementById('content-frame').src='pages/status.html';">View Feed</button>
+                    <button class="btn-primary" style="background: #ffffff; color: #2c3e50; border: 2px solid var(--border-color);" onclick="logoutAndRedirect();">Logout</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="content-section" style="padding: 28px;">
+                    <h3><i class="fas fa-user-circle"></i> Profile Overview</h3>
+                    <p id="profile-bio" style="margin-top: 18px; color: var(--text-dark); line-height: 1.75;">Your anonymous story feed and chat history will appear here after signing in.</p>
+                    <div class="profile-metrics">
+                        <div class="metric-card">
+                            <h3 id="metric-likes">0</h3>
+                            <p>Likes Received</p>
+                        </div>
+                        <div class="metric-card">
+                            <h3 id="metric-chats">0</h3>
+                            <p>Active Chats</p>
+                        </div>
+                        <div class="metric-card">
+                            <h3 id="metric-connections">0</h3>
+                            <p>Connections</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="profile-settings">
+                    <div class="setting-row">
+                        <span>Online Status</span>
+                        <label style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" style="opacity: 0; width: 0; height: 0;" checked>
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #667eea; border-radius: 24px;"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <span>Show Profile</span>
+                        <label style="position: relative; display: inline-block; width: 50px; height: 24px;">
+                            <input type="checkbox" style="opacity: 0; width: 0; height: 0;" checked>
+                            <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #667eea; border-radius: 24px;"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/auth.js"></script>
+    <script>
+        // Check if user is authenticated
+        document.addEventListener('DOMContentLoaded', async () => {
+            const user = await getCurrentUser();
+            if (!user) {
+                // User is not logged in, redirect to signup
+                redirectToHome();
+                return;
+            }
+            
+            // Update profile with user data
+            const initials = getUserInitials(user.name || user.firstName + ' ' + user.lastName);
+            document.getElementById('profile-avatar').textContent = initials;
+            document.getElementById('profile-name').textContent = user.name || (user.firstName + ' ' + user.lastName);
+            document.getElementById('profile-subtitle').textContent = `${user.university || 'Anonymous campus social'} · Member`;
+            document.getElementById('profile-university').textContent = user.university || 'Unknown';
+            document.getElementById('profile-handle').textContent = `@${user.handle || user.username || 'anonymous'}`;
+            document.getElementById('profile-bio').textContent = 'Connected through anonymous status updates and chat. Customize your bio after login.';
+            document.getElementById('metric-likes').textContent = '18';
+            document.getElementById('metric-chats').textContent = '4';
+            document.getElementById('metric-connections').textContent = '9';
+        });
+    </script>
+</body>
+</html>
